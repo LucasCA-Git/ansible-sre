@@ -1,0 +1,27 @@
+---
+# - name: "Configuração do Cluster K3s"
+#   hosts: master, workers
+#   become: yes
+#   vars_files: [../vars/main.yml]
+
+#   tasks:
+#     - name: "Atualizar Cache APT"
+#       apt: { update_cache: yes, cache_valid_time: 3600 }
+
+- name: "Setup do master"
+  hosts: master
+  become: yes
+  vars_files: [ ../vars/main.yml ]
+  roles: [ k3s_master ]
+
+- name: "Setup dos 9 Filhos (Workers)"
+  hosts: workers
+  become: yes
+  vars_files: [ ../vars/main.yml ]
+  roles: [ k3s_worker ]
+
+- name: "Instalação do Helm e Monitoramento no Pai"
+  hosts: master
+  become: yes
+  vars_files: [ ../vars/main.yml ]
+  roles: [ monitoring_stack ]

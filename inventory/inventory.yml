@@ -1,0 +1,44 @@
+all:
+  hosts:
+    hadoopcoord:
+      ansible_host: 157.245.141.174
+    hadoopworker:
+      ansible_host: 167.99.151.223
+    trinocoord:
+      ansible_host: 68.183.129.125
+    trinoworker:
+      ansible_host: 67.207.83.240
+    appserver:
+      ansible_host: 147.182.161.86
+    mlnode:
+      ansible_host: 167.99.238.23
+    ingestor:
+      ansible_host: 134.209.113.172
+    arangodb:
+      ansible_host: 159.223.174.246
+    mongodb:
+      ansible_host: 178.128.144.216
+    elasticsearch:
+      ansible_host: 157.230.232.136
+
+  vars:
+    ansible_user: root
+    ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+    ansible_python_interpreter: /usr/bin/python3
+
+  children:
+    master:
+      hosts:
+        appserver:
+    workers:
+      hosts:
+        hadoopcoord:
+        hadoopworker:
+        trinocoord:
+        trinoworker:
+        mlnode:
+        ingestor:
+        arangodb:
+        mongodb:
+        elasticsearch:

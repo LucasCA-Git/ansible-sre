@@ -1,0 +1,19 @@
+- name: Unir Worker ao Cluster do master
+  ansible.builtin.shell: |
+    set -e
+    curl -sfL https://get.k3s.io | \
+    K3S_URL="https://{{ PAI_IP }}:6443" \
+    K3S_TOKEN="{{ K3S_TOKEN }}" \
+    sh -s - agent \
+    --node-name {{ inventory_hostname }}
+  args:
+    creates: /usr/local/bin/k3s-agent
+  register: k3s_join_result
+
+- name: Debug do Resultado do Join (se falhar)
+  debug:
+    msg:
+      - "STDOUT: {{ k3s_join_result.stdout }}"
+      - "STDERR: {{ k3s_join_result.stderr }}"
+      - "RC (Return Code): {{ k3s_join_result.rc }}"
+  when: k3s_join_result is failed

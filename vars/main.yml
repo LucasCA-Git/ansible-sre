@@ -1,0 +1,13 @@
+---
+# Configurações de Acesso (Suas solicitações)
+GRAFANA_ADMIN_USER: "admin"
+GRAFANA_ADMIN_PASSWORD: "admin"
+K3S_TOKEN: "sre_cluster_2026_secure"
+
+# Infra e Rede
+MONITORING_NAMESPACE: "monitoring"
+GRAFANA_NODE_PORT: 30000
+HELM_REPO_URL: "https://prometheus-community.github.io/helm-charts"
+
+# O Pai (Master) definido dinamicamente pelo inventário
+PAI_IP: "{{ hostvars['appserver']['ansible_host'] }}"
